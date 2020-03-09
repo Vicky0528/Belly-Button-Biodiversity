@@ -33,7 +33,7 @@ function buildCharts(sample) {
     var otu_ids = otu_id.split(',');
     var otu_labels = otu_label.split(';');
     var sample_values = sample_value.split(",");
-
+    var otu_ids_lables = otu_ids.map(x => 'OTU '+ x);
 
     console.log(otu_ids);
     console.log(otu_labels);
@@ -62,23 +62,49 @@ function buildCharts(sample) {
 
     Plotly.plot("bubble", bubbleData, bubbleLayout);
 
+    //Create the Trace
+    var trace = {
+      x: sample_values.slice(0,10).reverse(),
+      y: otu_ids_lables.slice(0,10).reverse(),
+      hovertext: otu_labels.slice(0,10).reverse(),
+      hoverinfo: "hovertext",
+      type: "bar",
+      orientation: "h"
+    };
+    //Create the data array for the plot
+    var bardata = [trace];
+    //Create layout
+    var barlayout = {
+      margin: {
+          l: 100,
+          // r: 20,
+          t: 0
+          // b: 20
+      },
+      width:400,
+      height:500,
+  };
+
+  //console.log(data);
+  Plotly.newPlot("bar", bardata, barlayout);
+
     // HINT: Use slice() to Grab the Top 10 sample_values,
     // otu_ids, and otu_labels (10 Each)
-    let pieData = [
-      {
-        values: sample_values.slice(0, 10),
-        labels: otu_ids.slice(0, 10),
-        hovertext: otu_labels.slice(0, 10),
-        hoverinfo: "hovertext",
-        type: "pie"
-      }
-    ];
+    // let pieData = [
+    //   {
+    //     values: sample_values.slice(0, 10),
+    //     labels: otu_ids.slice(0, 10),
+    //     hovertext: otu_labels.slice(0, 10),
+    //     hoverinfo: "hovertext",
+    //     type: "pie"
+    //   }
+    // ];
     
-    let pieLayout = {
-      margin: { t: 0, l: 0 }
-    };
+    // let pieLayout = {
+    //   margin: { t: 0, l: 0 }
+    // };
 
-    Plotly.plot("pie", pieData, pieLayout)
+    // Plotly.plot("pie", pieData, pieLayout)
 })
 }
 
